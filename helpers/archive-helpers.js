@@ -39,10 +39,17 @@ exports.isUrlInList = function(checkUrl){
 };
 
 exports.addUrlToList = function(url){
-  fs.appendFile(this.paths.list, url);
+  if(!this.isUrlInList(url)){
+    fs.appendFile(this.paths.list, url);
+  }
 };
 
-exports.isURLArchived = function(){
+exports.isUrlArchived = function(url){
+ var archiveUrl = fs.readdirSync(this.paths.archivedSites);
+ if(archiveUrl.indexOf(url) !== -1){
+  return true;
+ }
+ return false;
 };
 
 exports.downloadUrls = function(){
