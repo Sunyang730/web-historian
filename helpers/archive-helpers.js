@@ -25,28 +25,42 @@ exports.initialize = function(pathsObj){
 // The following function names are provided to you to suggest how you might
 // modularize your code. Keep it clean!
 
-exports.readListOfUrls = function(){
-  return fs.readFileSync(this.paths.list).toString();
+exports.readListOfUrls = function(callback){
+  fs.readFile(this.paths.list, function(err, files){
+    callback(files.toString());
+  });
 };
 
-exports.isUrlInList = function(checkUrl){
-  var arrayOfUrls = this.readListOfUrls().split('\n');
-  if(arrayOfUrls.indexOf(checkUrl) === -1){
-    return false;
-  }
-  return true;
-
+exports.isUrlInList = function(url, callback){
+  this.readListOfUrls(function(url){
+    var arrayOfUrls = url.split('\n');
+    if(arrayOfUrls.indexOf(url) === -1){
+      callback(false);
+    }
+    callback(true);
+  });
 };
 
 exports.addUrlToList = function(url){
-  if(!this.isUrlInList(url)){
-    fs.appendFile(this.paths.list, url);
-  }
+  this.isUrlInList(url, function(exist){
+    if(!exist){
+      fs.appendFile(exports.paths.list, url, function(err){
+        if (err) throw err;
+        console.log('The "data to append" was appended to file!');
+      });
+    }
+  });
+  // if(!this.isUrlInList(function(url){
+  //   fs.appendFile(this.paths.list, url, function(err){
+  //     if (err) throw err;
+  //     console.log('The "data to append" was appended to file!');
+  //   });
+  // })
 };
 
-exports.isUrlArchived = function(url){
- var archiveUrl = fs.readdirSync(this.paths.archivedSites);
- if(archiveUrl.indexOf(url) !== -1){
+exports.isUrlArchived = function(files, url){
+ if(files.indexOf(url) !== -1){
+  console
   return true;
  }
  return false;

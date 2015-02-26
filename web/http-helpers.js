@@ -23,6 +23,15 @@ exports.serveAssets = function(res, asset, callback) {
   });
 };
 
+exports.checkArchive = function(url, callback){
+  console.log('I am out of checkArchive');
+  fs.readdir(archive.paths.archivedSites, function(err, files){
+    console.log('I am inside of readir of checkArchive');
+    callback(files, url);
+  });
+  console.log('I am end of checkArchive');
+};
+
 
 
 // As you progress, keep thinking about what helper functions you can put here!
