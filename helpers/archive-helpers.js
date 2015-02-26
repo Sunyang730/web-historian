@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
+var request = require('request');
 
 /*
  * You will need to reuse the same paths many times over in the course of this sprint.
@@ -26,15 +27,17 @@ exports.initialize = function(pathsObj){
 // modularize your code. Keep it clean!
 
 exports.readListOfUrls = function(callback){
-  fs.readFile(this.paths.list, function(err, files){
-    callback(files.toString());
+  fs.readFile(exports.paths.list, function(err, sites){
+    sites = sites.toString().split('\n');
+    if(callback){
+      callback(sites);
+    }
   });
 };
 
 exports.isUrlInList = function(url, callback){
-  this.readListOfUrls(function(url){
-    var arrayOfUrls = url.split('\n');
-    if(arrayOfUrls.indexOf(url) === -1){
+  exports.readListOfUrls(function(site){
+    if(site.indexOf(url) === -1){
       callback(false);
     }
     callback(true);
@@ -42,7 +45,7 @@ exports.isUrlInList = function(url, callback){
 };
 
 exports.addUrlToList = function(url){
-  this.isUrlInList(url, function(exist){
+  exports.isUrlInList(url, function(exist){
     if(!exist){
       fs.appendFile(exports.paths.list, url, function(err){
         if (err) throw err;
@@ -50,8 +53,8 @@ exports.addUrlToList = function(url){
       });
     }
   });
-  // if(!this.isUrlInList(function(url){
-  //   fs.appendFile(this.paths.list, url, function(err){
+  // if(!exports.isUrlInList(function(url){
+  //   fs.appendFile(exports.paths.list, url, function(err){
   //     if (err) throw err;
   //     console.log('The "data to append" was appended to file!');
   //   });

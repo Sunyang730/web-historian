@@ -2,7 +2,8 @@ var path = require('path');
 var archive = require('../helpers/archive-helpers');
 var fs = require('fs');
 var httpHelp = require('./http-helpers.js');
-var runOnce = false;
+
+
 // require more modules/folders here!
 
 exports.handleRequest = function (req, res) {
