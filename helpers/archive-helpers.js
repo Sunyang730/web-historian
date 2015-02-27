@@ -65,7 +65,7 @@ exports.addUrlToList = function(url, callback){
 };
 
 exports.isUrlArchived = function(url, callback){
-  var completePath = path.join(exports.paths.achivedSites, url);
+  var completePath = path.join(exports.paths.archivedSites, url);
   fs.exists(completePath, function(exist){
     callback(exist);
   });

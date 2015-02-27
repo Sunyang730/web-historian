@@ -20,6 +20,14 @@ var actions = {
             httpHelp.serveAssets(response, '/loading.html');
           });
         } else {
+          archive.isUrlArchived(link, function(found){
+            if(found){
+              httpHelp.serveAssets(response, '/' + link);
+            }
+            else{
+              httpHelp.serveAssets(response, '/loading.html');
+            }
+          });
 
         }
       });
