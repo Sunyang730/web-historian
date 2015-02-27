@@ -64,12 +64,19 @@ exports.addUrlToList = function(url, callback){
   // })
 };
 
-exports.isUrlArchived = function(files, url){
- if(files.indexOf(url) !== -1){
-  console
-  return true;
- }
- return false;
+exports.isUrlArchived = function(url, callback){
+  var completePath = path.join(exports.paths.achivedSites, url);
+  fs.exists(completePath, function(exist){
+    callback(exist);
+  });
+
+
+
+ // if(files.indexOf(url) !== -1){
+ //  console
+ //  return true;
+ // }
+ // return false;
 };
 
 exports.downloadUrls = function(){
