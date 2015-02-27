@@ -44,15 +44,18 @@ exports.isUrlInList = function(url, callback){
   });
 };
 
-exports.addUrlToList = function(url){
-  exports.isUrlInList(url, function(exist){
-    if(!exist){
-      fs.appendFile(exports.paths.list, url, function(err){
-        if (err) throw err;
-        console.log('The "data to append" was appended to file!');
-      });
-    }
+exports.addUrlToList = function(url, callback){
+  fs.appendFile(exports.paths.list, url + '\n', function(err, file){
+    callback();
   });
+
+  // exports.isUrlInList(url, function(exist){
+  //   if(!exist){
+  //     fs.appendFile(exports.paths.list, url, function(err){
+  //       if (err) throw err;
+  //       console.log('The "data to append" was appended to file!');
+  //     });
+  //   }
   // if(!exports.isUrlInList(function(url){
   //   fs.appendFile(exports.paths.list, url, function(err){
   //     if (err) throw err;
