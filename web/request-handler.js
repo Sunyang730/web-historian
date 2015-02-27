@@ -13,7 +13,7 @@ var actions = {
   },
   'POST': function(request, response){
     httpHelp.collectionData(request, function(link){
-      console.log('I am a link from POST', link);
+      link = link.split('=')[1];
       archive.isUrlInList(link, function(exist){
         if(!exist){
           archive.addUrlToList(link, function(){
