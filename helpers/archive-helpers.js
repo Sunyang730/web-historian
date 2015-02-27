@@ -79,5 +79,9 @@ exports.isUrlArchived = function(url, callback){
  // return false;
 };
 
-exports.downloadUrls = function(){
+exports.downloadUrls = function(urls){
+
+
+  });
+
 };

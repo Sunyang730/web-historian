@@ -23,6 +23,10 @@ exports.serveAssets = function(res, asset, callback) {
   });
 };
 
+exports.sendResponse = function(response, message, statusCode){
+  response.writeHead(statusCode, message);
+}
+
 exports.checkArchive = function(url, callback){
   console.log('I am out of checkArchive');
   fs.readdir(archive.paths.archivedSites, function(err, files){
