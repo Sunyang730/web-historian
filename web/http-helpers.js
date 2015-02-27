@@ -11,30 +11,35 @@ exports.headers = headers = {
 };
 
 exports.serveAssets = function(res, asset, callback) {
-  fs.readFile(asset, function(err, data){
+  fs.readFile(archive.paths.siteAssets + asset, function(err, data){
     if(err){
-      res.writeHead(404);
-      res.end(JSON.stringify(err));
-      return;
+      fs.readFile(archive.paths.archivedSites + asset, function(err, data){
+        if(err){
+          callback ? callback() : exports.sendError(res);
+        } else {
+          exports.sendResponse(res, data);
+        }
+      });
+    } else {
+      console.log('data', data.toString());
+      exports.sendResponse(res, data);
     }
-    res.writeHead(200);
-    //Data is HTML file. convert data to string with data.toString();
-    res.end(data);
+
+
   });
 };
 
-exports.sendResponse = function(response, message, statusCode){
-  response.writeHead(statusCode, message);
+exports.sendError = function(response){
+  response.writeHead(404, 'Page Not Found', headers);
+  response.end();
 }
 
-exports.checkArchive = function(url, callback){
-  console.log('I am out of checkArchive');
-  fs.readdir(archive.paths.archivedSites, function(err, files){
-    console.log('I am inside of readir of checkArchive');
-    callback(files, url);
-  });
-  console.log('I am end of checkArchive');
-};
+exports.sendResponse = function(response, obj, statusCode){
+  statusCode = statusCode || 200;
+  response.writeHead(statusCode, headers);
+  response.end(obj);
+}
+
 
 
 

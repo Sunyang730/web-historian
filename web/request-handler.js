@@ -2,33 +2,50 @@ var path = require('path');
 var archive = require('../helpers/archive-helpers');
 var fs = require('fs');
 var httpHelp = require('./http-helpers.js');
-
-
+var urlParser = require('url');
 // require more modules/folders here!
 
+var actions = {
+  'GET': function(request, response){
+    var requestPath =  request.url === '/' ? '/index.html' : request.url;
+    httpHelp.serveAssets(response, requestPath);
+
+  },
+  'POST': function(request, response){
+
+  }
+
+};
+
 exports.handleRequest = function (req, res) {
-  console.log('Request URL:', req.url);
-  //if(req.url === '/' && req.method === 'GET'){
-  if(req.url === '/'){
-    console.log('I am in index');
-    httpHelp.serveAssets(res, path.join(archive.paths.siteAssets, '/index.html'));
-    //httpHelp.serveAssets(res, path.join(archive.paths.siteAssets, '/index.html'));
+  var action = actions[req.method];
+  if(action){
+    action(req, res);
+  } else {
+    httpHelp.sendResponse(res, 'not found', 404);
   }
-  if(req.url === '/styles.css'){
-    console.log('I am in style');
-    httpHelp.serveAssets(res, path.join(archive.paths.siteAssets, '/styles.css'));
-    //httpHelp.serveAssets(res, path.join(archive.paths.siteAssets, '/index.html'));
-  }
-  if(req.method === 'POST'){
-    req.on('data', function(data){
-      archive.addUrlToList(data.toString().slice(4) + '\n');
-    });
-  }
-  // req.on('data', function(data){
-  //   console.log('isUrlArchived:', httpHelp.checkArchive('www.google.com', archive.isUrlArchived));
-  //   console.log('readListOfUrls:', archive.readListOfUrls());
-  //   console.log('request handler console log:', archive.isUrlInList(data.toString().slice(4)));
-  // });
+  // console.log('Request URL:', req.url);
+  // //if(req.url === '/' && req.method === 'GET'){
+  // if(req.url === '/'){
+  //   console.log('I am in index');
+  //   httpHelp.serveAssets(res, path.join(archive.paths.siteAssets, '/index.html'));
+  //   //httpHelp.serveAssets(res, path.join(archive.paths.siteAssets, '/index.html'));
+  // }
+  // if(req.url === '/styles.css'){
+  //   console.log('I am in style');
+  //   httpHelp.serveAssets(res, path.join(archive.paths.siteAssets, '/styles.css'));
+  //   //httpHelp.serveAssets(res, path.join(archive.paths.siteAssets, '/index.html'));
+  // }
+  // if(req.method === 'POST'){
+  //   req.on('data', function(data){
+  //     archive.addUrlToList(data.toString().slice(4) + '\n');
+  //   });
+  // }
+  // // req.on('data', function(data){
+  // //   console.log('isUrlArchived:', httpHelp.checkArchive('www.google.com', archive.isUrlArchived));
+  // //   console.log('readListOfUrls:', archive.readListOfUrls());
+  // //   console.log('request handler console log:', archive.isUrlInList(data.toString().slice(4)));
+  // // });
 };
 
 
