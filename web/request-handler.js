@@ -16,12 +16,10 @@ var actions = {
       console.log('I am a link from POST', link);
       archive.isUrlInList(link, function(exist){
         if(!exist){
-          console.log('I am in if');
           archive.addUrlToList(link, function(){
             httpHelp.serveAssets(response, '/loading.html');
           });
         } else {
-          console.log('I am here in end');
 
         }
       });
