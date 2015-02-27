@@ -12,6 +12,23 @@ var actions = {
 
   },
   'POST': function(request, response){
+    archive.isUrlInList(request.url, function(exist){
+      if(exist){
+
+      }
+      else
+    });
+ //POST method is send
+  //Check if the Url is in the list. (isUrlInList)
+  //If not in the list.
+    //Add url to the list (addUrlToList)
+    //Load the loading page (loading.html)
+  //If it is in the list.
+    //we check the archive list. (isUrlArchived)
+      //if it is in archive lst.
+        //we load the page.
+      //if it is not.
+        //load the loading page. (loading.html)
 
   }
 
@@ -52,17 +69,6 @@ exports.handleRequest = function (req, res) {
 //Visit the site.
 //Main index page will be loaded
 //A website will be taken from the input field.
- //POST method is send
-  //Check if the Url is in the list. (isUrlInList)
-  //If not in the list.
-    //Add url to the list (addUrlToList)
-    //Load the loading page (loading.html)
-  //If it is in the list.
-    //we check the archive list. (isUrlArchived)
-      //if it is in archive lst.
-        //we load the page.
-      //if it is not.
-        //load the loading page. (loading.html)
 
 
 //Cron.
