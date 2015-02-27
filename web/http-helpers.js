@@ -21,7 +21,6 @@ exports.serveAssets = function(res, asset, callback) {
         }
       });
     } else {
-      console.log('data', data.toString());
       exports.sendResponse(res, data);
     }
 
