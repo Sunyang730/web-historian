@@ -31,14 +31,23 @@ exports.serveAssets = function(res, asset, callback) {
 exports.sendError = function(response){
   response.writeHead(404, 'Page Not Found', headers);
   response.end();
-}
+};
 
 exports.sendResponse = function(response, obj, statusCode){
   statusCode = statusCode || 200;
   response.writeHead(statusCode, headers);
   response.end(obj);
-}
+};
 
+exports.collectionData = function(request, callback){
+  var stringData = '';
+  request.on('data', function(data){
+    stringData += data;
+  });
+  request.on('end', function(){
+    callback(stringData);
+  });
+};
 
 
 
